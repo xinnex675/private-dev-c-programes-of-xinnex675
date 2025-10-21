@@ -2,16 +2,17 @@
 
 int main()
 {   int input = 0; 
-	printf("¼ÓÈëËÄ´¨´óÑ§\n"); 
-    printf("ÒªºÃºÃÑ§Ï°Âğ£¨0/1£©£¿");
+	printf("åŠ å…¥å››å·å¤§å­¦\n"); 
+    printf("è¦å¥½å¥½å­¦ä¹ å—ï¼ˆ0/1ï¼‰ï¼Ÿ");
     scanf("%d",&input);
     if (input == 1)
     {
-    	printf("ºÃoffer\n");
+    	printf("å¥½offer\n");
 	}
 	else
 	{
-		printf("ÂôºìÊí");
+		printf("çº¯fw");
 	}
     return 0;
  } 
+
