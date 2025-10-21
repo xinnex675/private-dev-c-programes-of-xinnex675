@@ -6,43 +6,43 @@
 
 using namespace std;
 
-// ÑÕÉ«¶¨Òå
+// é¢œè‰²å®šä¹‰
 const int COLOR_BLACK = 0;
 const int COLOR_DARKGREEN = 2;
 const int COLOR_GREEN = 10;
 const int COLOR_LIGHTGREEN = 14;
 
-// ÁĞ½á¹¹Ìå
+// åˆ—ç»“æ„ä½“
 struct Column {
-    int x;              // X×ø±ê
-    int y;              // Í·²¿Y×ø±ê
-    int length;         // ³¤¶È
-    int speed;          // ËÙ¶È
-    int updateRate;     // ¸üĞÂÆµÂÊ
-    int updateCounter;  // ¸üĞÂ¼ÆÊıÆ÷
+    int x;              // Xåæ ‡
+    int y;              // å¤´éƒ¨Yåæ ‡
+    int length;         // é•¿åº¦
+    int speed;          // é€Ÿåº¦
+    int updateRate;     // æ›´æ–°é¢‘ç‡
+    int updateCounter;  // æ›´æ–°è®¡æ•°å™¨
 };
 
-// ÉèÖÃÎÄ±¾ÑÕÉ«
+// è®¾ç½®æ–‡æœ¬é¢œè‰²
 void setColor(int color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
 
-// ÉèÖÃ¹â±êÎ»ÖÃ
+// è®¾ç½®å…‰æ ‡ä½ç½®
 void setCursorPos(int x, int y) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD coord = {static_cast<SHORT>(x), static_cast<SHORT>(y)};
     SetConsoleCursorPosition(hConsole, coord);
 }
 
-// Òş²Ø¹â±ê
+// éšè—å…‰æ ‡
 void hideCursor() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo = {sizeof(cursorInfo), FALSE};
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
 
-// »ñÈ¡¿ØÖÆÌ¨³ß´ç
+// è·å–æ§åˆ¶å°å°ºå¯¸
 void getConsoleSize(int &width, int &height) {
     width = 80;
     height = 25;
@@ -54,15 +54,15 @@ void getConsoleSize(int &width, int &height) {
     }
 }
 
-// Éú³ÉËæ»ú×Ö·û£¨ÓÅ»¯²¿·Ö£©
+// ç”Ÿæˆéšæœºå­—ç¬¦ï¼ˆä¼˜åŒ–éƒ¨åˆ†ï¼‰
 char getRandomChar() {
-    // ¾«¼ò×Ö·û¼¯²¢Ô¤¼ÆËã³¤¶È£¬Ìá¸ßĞ§ÂÊ
+    // ç²¾ç®€å­—ç¬¦é›†å¹¶é¢„è®¡ç®—é•¿åº¦ï¼Œæé«˜æ•ˆç‡
     static const char chars[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    static const int charCount = sizeof(chars) - 1; // Ô¤¼ÆËã±ÜÃâÖØ¸´¼ÆËã
-    return chars[rand() % charCount]; // Ê¹ÓÃÔ¤¼ÆËãµÄ³¤¶È
+    static const int charCount = sizeof(chars) - 1; // é¢„è®¡ç®—é¿å…é‡å¤è®¡ç®—
+    return chars[rand() % charCount]; // ä½¿ç”¨é¢„è®¡ç®—çš„é•¿åº¦
 }
 
-// ³õÊ¼»¯ÁĞ
+// åˆå§‹åŒ–åˆ—
 void initColumn(Column &col, int width, int height) {
     col.x = rand() % width;
     col.y = - (rand() % height);
@@ -72,7 +72,7 @@ void initColumn(Column &col, int width, int height) {
     col.updateCounter = 0;
 }
 
-// ¸üĞÂÁĞ
+// æ›´æ–°åˆ—
 void updateColumn(Column &col, int height) {
     col.y += col.speed;
     col.updateCounter++;
@@ -84,9 +84,9 @@ void updateColumn(Column &col, int height) {
     }
 }
 
-// »æÖÆÁĞ
+// ç»˜åˆ¶åˆ—
 void drawColumn(const Column &col, int height, vector<vector<char>> &charBuffer) {
-    // »æÖÆÍ·²¿
+    // ç»˜åˆ¶å¤´éƒ¨
     if (col.y >= 0 && col.y < height) {
         setCursorPos(col.x, col.y);
         setColor(COLOR_LIGHTGREEN);
@@ -95,7 +95,7 @@ void drawColumn(const Column &col, int height, vector<vector<char>> &charBuffer)
         cout << c;
     }
     
-    // »æÖÆÖ÷Ìå
+    // ç»˜åˆ¶ä¸»ä½“
     for (int i = 1; i < col.length; i++) {
         int pos = col.y - i;
         if (pos >= 0 && pos < height) {
@@ -117,7 +117,7 @@ void drawColumn(const Column &col, int height, vector<vector<char>> &charBuffer)
         }
     }
     
-    // Çå³ıÎ²²¿
+    // æ¸…é™¤å°¾éƒ¨
     int clearPos = col.y - col.length;
     if (clearPos >= 0 && clearPos < height) {
         setCursorPos(col.x, clearPos);
@@ -130,7 +130,7 @@ void drawColumn(const Column &col, int height, vector<vector<char>> &charBuffer)
 int main() {
     srand(static_cast<unsigned int>(time(NULL)));
     hideCursor();
-    SetConsoleTitleA("Êı×ÖÓêĞ§¹û");
+    SetConsoleTitleA("æ•°å­—é›¨æ•ˆæœ");
     
     int width, height;
     getConsoleSize(width, height);
@@ -144,7 +144,7 @@ int main() {
     
     setCursorPos(1, 0);
     setColor(COLOR_GREEN);
-    cout << "°´ESC¼üÍË³ö";
+    cout << "æŒ‰ESCé”®é€€å‡º";
     
     while (!(GetAsyncKeyState(VK_ESCAPE) & 0x8000)) {
         for (auto &col : columns) {
